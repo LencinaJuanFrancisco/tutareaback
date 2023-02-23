@@ -10,9 +10,12 @@ function allRouter(app){
     app.use('/api/v1',router)
 
     router.use('/',home)
-    router.use('/proyecto', proyectoRouter)
+    router.use('/proyecto',proyectoRouter)
     router.use('/tarea',tareaRouter)
     router.use('/usuario',usuarioRouter)
+
+
+
 }
 
 export default allRouter;

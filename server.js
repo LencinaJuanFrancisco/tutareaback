@@ -1,5 +1,6 @@
 import * as dotenv from 'dotenv' 
 import express from 'express';
+import cors from 'cors'
 import allRouter from './src/routers/index.js'
 import { dbConect } from './src/database/config.js';
 
@@ -9,6 +10,9 @@ const app = express()
 const PORT =  process.env.PORT || 3000
 //Seter
 app.use(express.json());
+app.use(cors({
+  origin:'*'
+}))
 
 //Routers
 allRouter(app)
@@ -30,8 +34,5 @@ app.listen(PORT, (err) => {
       );
     console.log(`🏁 El servidor esta corriendo exitosamente en -->  http://localhost:${PORT}/api/v1 🏁`);
 }
-        
-        
-        
-
+    
 });

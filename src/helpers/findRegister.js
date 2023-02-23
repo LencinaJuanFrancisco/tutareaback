@@ -1,5 +1,5 @@
-import {User} from './../Schemas/Users.js'
-import { validateIdParamas } from '../helpers/validateIdParamas.js'
+import {User} from '../Schemas/Users.js'
+import { validateIdParamas } from './validateIdParamas.js'
 export async function findRegister(model,id) {
     
     if (validateIdParamas(id)) {
