@@ -22,11 +22,11 @@ const usuario = {
     try {
       if (validateIdParamas(id)) {
         const rta = await User.findById(id);
-        rta
+       return  rta
           ? res.status(200).json({ data: rta })
           : res.status(401).json({ message: "Registro no encontrado" });
       }
-      res.status(400).json({ message: "Formato del ID no valido" });
+     return res.status(400).json({ message: "Formato del ID no valido" });
     } catch (error) {
       res.status(400).json({ message: error.message });
     }
@@ -38,12 +38,13 @@ const usuario = {
       const passHas = await hashPassword(data.password);
       const newUser = new User({ ...data, password: passHas });
       const saveUser = await newUser.save();
-      res.status(200).json({
+
+      return  res.status(200).json({
         message: "usuario creado",
         data: saveUser,
       });
     } catch (error) {
-      res.status(400).json({ message: error.message });
+     return  res.status(400).json({ message: error.message });
     }
   },
   editar: async (req, res) => {
@@ -56,13 +57,15 @@ const usuario = {
           new: true,
         });
 
-        upDateUser != null
-          ? res.status(200).json({ message: "Editado", data: upDateUser })
-          : res.status(401).json({ message: "Usuario no encontrado" });
+       if(upDateUser != null){
+         return res.status(200).json({ message: "Editado", data: upDateUser })
+
+       }
+        return res.status(401).json({ message: "Usuario no encontrado" });
       }
-      res.status(400).json({ message: "Formato del ID no valido" });
+      return res.status(400).json({ message: "Formato del ID no valido" });
     } catch (error) {
-      res.status(400).json({ message: error.message });
+      return  res.status(400).json({ message: error.message });
     }
   },
   borrar: async(req, res) => {
@@ -70,12 +73,12 @@ const usuario = {
     try {
       if (validateIdParamas(id)) {
         const rta = await User.findByIdAndDelete(id)
-        rta ? res.status(200).json({message:`Usuario con ID ${id} sue eliminado`})
-            : res.status(401).json({message: "Usuario no encontrado"})
+      if(rta) return res.status(200).json({message:`Usuario con ID ${id} sue eliminado`})
+            return res.status(401).json({message: "Usuario no encontrado"})
       }
-      res.status(400).json({message:"Formato del ID no valido"})
+      return res.status(400).json({message:"Formato del ID no valido"})
     } catch (error) {
-      res.status(400).json({ message: error.message });
+      return res.status(400).json({ message: error.message });
     }
   },
   login:async (req,res)=>{
@@ -106,7 +109,7 @@ const usuario = {
         }
        return res.status(401).json({message:"Usuario no encontrado"})
     } catch (error) {
-      console.log('entro al catch de login -------lpm',error);
+     console.log("log del chatch de login" , error);
       res.status(400).json({ message: error.message });
     }
   }

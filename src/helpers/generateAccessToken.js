@@ -5,5 +5,8 @@ const jwt = pkg
 
 
 export async function generateAccessToken(user){
-    return jwt.sign(user,process.env.SECRET_JWT)
+    const time = "10m"
+    const token = jwt.sign(user,process.env.SECRET_JWT)   
+    console.log("TOKENNNNN", token); 
+    return token
 }
