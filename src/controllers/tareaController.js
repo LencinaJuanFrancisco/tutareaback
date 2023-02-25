@@ -1,4 +1,4 @@
-import Task from './../Schemas/Task.js'
+import {Task} from './../Schemas/Task.js'
 const tarea = {
     listarTodos: (req, res) => { },
     buscar: (req, res) => {
