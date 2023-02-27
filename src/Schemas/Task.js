@@ -1,15 +1,21 @@
-import { Schema, model } from 'mongoose'
+import mongoose, { Schema, model } from 'mongoose'
 
 const TaskSchema = new Schema({
     name: String,
-    descripcion: String
-  /* dateStar: {
+    descripcion: String,
+    dateStar: {
         type: Date,
-  default: Date.now */
-    ,
+        default: Date.now
+    },
     dateEnd: Date,
     state: String,
     priority: String,
+
+    userCreateTask:[{
+        type:mongoose.Types.ObjectId,
+        ref:"User"
+        
+    }]
 
 })
 
