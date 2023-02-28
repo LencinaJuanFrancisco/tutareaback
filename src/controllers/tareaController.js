@@ -1,8 +1,8 @@
-import { Task } from './../Schemas/Task.js'
+import { Task } from '../Schemas/Task.js'
 const tarea = {
     listarTodos: async (req, res) => {
         try {
-            const rta = await Task.find().populate("User",null,null, { strictPopulate: false })
+            const rta = await Task.find().populate("userCreateTask", null, null, { strictPopulate: false })
             res.status(200).json({ message: "Todas las Tareas", data: rta })
         } catch (error) {
             console.log("pase por aca", error)

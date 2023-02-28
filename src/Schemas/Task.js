@@ -11,11 +11,11 @@ const TaskSchema = new Schema({
     state: String,
     priority: String,
 
-    userCreateTask:[{
-        type:mongoose.Types.ObjectId,
-        ref:"User"
-        
-    }]
+    userCreateTask: ({
+        type: mongoose.Types.ObjectId,
+        ref: "User"
+
+    })
 
 })
 
