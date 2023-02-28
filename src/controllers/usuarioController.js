@@ -96,11 +96,11 @@ const usuario = {
         // console.log("rta de compare" , rta);
         if (rta === true) {
           //si rta es true , genero el JWT
-          const jwtUser = await generateAccessToken(findUser[0].name);
+          const {token,expiresIn} = await generateAccessToken(findUser[0].id);
           // console.log('log del token',jwtUser);
-          return res.header("autorizado", jwtUser).json({
+          return res.header("autorizado", token).json({
             message: "Usuario autenticado",
-            token: jwtUser,
+            token,expiresIn
           });
         } else {
        
@@ -116,5 +116,12 @@ const usuario = {
       res.status(400).json({ message: error.message });
     }
   },
+  giu:async(req,res)=>{
+    try {
+      
+    } catch (error) {
+      
+    }
+  }
 };
 export default usuario;
