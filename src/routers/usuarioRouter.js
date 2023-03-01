@@ -8,10 +8,12 @@ const router = Router()
 //CRUD USERS
 router.get('/',usuarioController.listarTodos)
 router.post('/',userValidationData,usuarioController.crear)
+
 //ROUTE PROTECTED
 router.get('/protegida',validateToken,(req,res)=>{
     res.send("Estan en una area restringida 👽👽👽👽👽👽👽👽👽")
 })
+
 //LOGIN
 router.post('/login', usuarioController.login)
 

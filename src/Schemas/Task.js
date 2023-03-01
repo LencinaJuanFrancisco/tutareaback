@@ -3,14 +3,21 @@ import mongoose, { Schema, model } from 'mongoose'
 const TaskSchema = new Schema({
     name: String,
     descripcion: String,
-    dateStar: {
+    
+    dateEnd: {
         type: Date,
-        default: Date.now
+        required: true,
+        default: Date.now()
     },
-    dateEnd: Date,
-    state: String,
-    priority: String,
-
+    state:{
+        type: Boolean,
+        default: false
+    },
+    priority:{
+        type: String,
+        required: true,
+        enum: ['Baja', 'Media', 'Alta']
+    },
     userCreateTask: ({
         type: mongoose.Types.ObjectId,
         ref: "User"
