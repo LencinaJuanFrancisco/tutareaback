@@ -19,7 +19,7 @@ const tarea = {
             if (validateIdParamas(id)) {
                 const allTask = await Task.findById(id).populate("userCreateTask");
                 return allTask ? res.status(200).json({ message: "Listado", data: allTask })
-                           : res.status(200).json({ message: "Aun no hay registros de Tareas" })
+                               : res.status(401).json({ message: "Aun no hay registros de Tareas" })
             }
             res.status(401).json({message:"Formato id Incorrecto"})
         }

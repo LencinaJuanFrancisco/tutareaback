@@ -6,7 +6,7 @@ const router = Router()
 router.get("/",proyectoControlles.listarTodos)
 router.post("/",validateToken,proyectoControlles.crear)
 router.get('/:id',proyectoControlles.listarUno)
-router.patch('/:id',proyectoControlles.editar)
+router.patch('/:id',validateToken,proyectoControlles.editar)
 router.delete('/:id',proyectoControlles.borrar)
 
 

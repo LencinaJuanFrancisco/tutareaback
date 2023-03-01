@@ -38,7 +38,31 @@ import Proyect from '../Schemas/Proyect.js'
         }
     
     },
-    editar:async(req,res)=>{},
+    editar:async(req,res)=>{
+        const {id}= req.params
+        const data = req.body
+        try {
+            if (validateIdParamas(id)) {
+                const rta = await Proyect.findById(id)
+                if (rta) {
+                    //verifico si el usuario logueado es el mismo que creo el proyecto
+                    //ya que solo el creador del proyecto puede mosdificarlo
+                    // console.log("req.uid--->",req.uid.toString());
+                    // console.log("rta.createUser********>",rta.createUser.toString());
+                    if (rta.createUser.toString() === req.uid.toString()) {
+                       // console.log("entre a la igualdad y se puede editar");
+                       const upDateProyect = await Proyect.findByIdAndUpdate(id,data,{new:true})
+                       return res.status(200).json({message:"Proyecto Editado",data:upDateProyect})
+                    }
+                    return res.status(401).json({message:"Solo el creador del proyecto puede editarlo"})
+                }
+                return res.status(401).json({message:"Proyecto no encontrado"})
+            }
+            return res.status(401).json({message:"Formato ID incorrecto"})
+        } catch (error) {
+            return res.status(400).json({message:"cual puta es el error",error:error.message})
+        }
+    },
     borrar:async(req,res)=>{},
     agregarTarea:async(req,res)=>{},
     agregarColaborador:async(req,res)=>{},

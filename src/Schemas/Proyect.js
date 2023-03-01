@@ -5,12 +5,12 @@ const proyectSchema = new Schema({
     name: {
         type: String,
         trim: true,
-        required: true
+       
     },
     description: {
         type: String,
         trim: true,
-        required: true
+       
     },
     dateEnd: {
         type: Date,
@@ -19,7 +19,7 @@ const proyectSchema = new Schema({
     customer: {
         type: String,
         trim: true,
-        required: true
+        
     },
     createUser: {
         type: Schema.Types.ObjectId,
