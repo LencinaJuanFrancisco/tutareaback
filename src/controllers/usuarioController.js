@@ -2,12 +2,13 @@ import { generateAccessToken } from "../helpers/generateAccessToken.js";
 import { hashPassword, comparePassword } from "../helpers/hashPassword.js";
 import { validateIdParamas } from "../helpers/validateIdParamas.js";
 
+
 import { User } from "./../Schemas/Users.js";
 
 const usuario = {
   listarTodos: async (req, res) => {
     try {
-      const allUsers = await User.find();
+      const allUsers = await User.find().select("-password");
       allUsers.length > 0
         ? res.status(200).json({ message: "Listado", data: allUsers })
         : res.status(200).json({ message: "Aun no hay registros de Usuarios" });
@@ -21,7 +22,7 @@ const usuario = {
 
     try {
       if (validateIdParamas(id)) {
-        const rta = await User.findById(id);
+        const rta = await User.findById(id).select("-password");
         return rta
           ? res.status(200).json({ data: rta })
           : res.status(401).json({ message: "Registro no encontrado" });
@@ -32,17 +33,20 @@ const usuario = {
     }
   },
   crear: async (req, res) => {
-    const data = req.body;
+    const {email} = req.body;
 
     try {
-      const passHas = await hashPassword(data.password);
+      //validamos que no tengamos un usuario con el mismo email
+      const userExists = await User.findOne({email})
+
+      if(userExists) return res.status(401).json({message:"Usuario ya registrado"})
+
+      const data =  req.body
+      const passHas = await hashPassword();
       const newUser = new User({ ...data, password: passHas });
       const saveUser = await newUser.save();
 
-      return res.status(200).json({
-        message: "usuario creado",
-        data: saveUser,
-      });
+      return res.status(200).json({message: "usuario creado",data: saveUser});
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
@@ -116,9 +120,14 @@ const usuario = {
       res.status(400).json({ message: error.message });
     }
   },
+  //recuperacion de datos del usuario por token
   giu:async(req,res)=>{
     try {
-      
+      //con select("-password") traemos todos los datos menos el password del usuario 
+      const user = await User.findById(req.uid).select("-password")
+     
+      console.log(user);
+      return res.status(200).json({user})
     } catch (error) {
       
     }
