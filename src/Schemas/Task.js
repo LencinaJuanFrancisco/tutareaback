@@ -22,8 +22,14 @@ const TaskSchema = new Schema({
         type: mongoose.Types.ObjectId,
         ref: "User"
 
-    })
+    }),
+    proyect:{
+        type: Schema.Types.ObjectId,
+        ref: 'Proyect'
+    }
 
+},{
+    timestamps: true
 })
 
 TaskSchema.set('toJSON', {

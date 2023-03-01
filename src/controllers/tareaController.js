@@ -1,13 +1,14 @@
 import { Task } from '../Schemas/Task.js'
+
 import { validateIdParamas } from '../helpers/validateIdParamas.js'
 
 const tarea = {
     listarTodos: async (req, res) => {
         try {
-            const rta = await Task.find().populate("userCreateTask", null, null, { strictPopulate: false })
+            const rta = await Task.find().populate({path: "userCreateTask", select:"name email id"})
             res.status(200).json({ message: "Todas las Tareas", data: rta })
         } catch (error) {
-            console.log("pase por aca", error)
+           // console.log("pase por aca", error)
             res.status(400).json(error.message)
         }
 
@@ -16,10 +17,11 @@ const tarea = {
         try {
             const { id } = req.params;
             if (validateIdParamas(id)) {
-                const allTask = await Task.findById(id);
-            return allTask ? res.status(200).json({ message: "Listado", data: allTask })
-                    : res.status(200).json({ message: "Aun no hay registros de Tareas" })
+                const allTask = await Task.findById(id).populate("userCreateTask");
+                return allTask ? res.status(200).json({ message: "Listado", data: allTask })
+                           : res.status(200).json({ message: "Aun no hay registros de Tareas" })
             }
+            res.status(401).json({message:"Formato id Incorrecto"})
         }
         catch (error) {
             res.status(400).json({ message: error.message });
@@ -27,9 +29,10 @@ const tarea = {
     },
     crear: async (req, res) => {
         const data = req.body
-        const userId = { _id: "63fd185b3762f1898bc445bd" }
-        const newData = ({ ...data, userCreateTask: userId })
-        console.log("newData", newData)
+        const userId = req.uid 
+   
+        const newData = ({ ...data, userCreateTask: userId})
+       // console.log("newData", newData)
         try {
             const newTask = new Task(newData);
             const saveTask = await newTask.save();

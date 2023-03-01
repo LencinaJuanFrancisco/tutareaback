@@ -5,6 +5,8 @@ const usersSchema = new Schema({
     email:String,
     password:String,
     
+},{
+    timestamps: true
 })
 
 usersSchema.set('toJSON',{

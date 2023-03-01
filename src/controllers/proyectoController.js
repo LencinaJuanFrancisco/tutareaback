@@ -1,7 +1,7 @@
-// import models de proyecto
+import Proyect from '../Schemas/Proyect.js'
  const proyecto = {
     listarTodos:(req,res)=>{},
-    buscar:(req,res)=>{},
+    listarUno:(req,res)=>{},
     crear:(req,res)=>{},
     editar:(req,res)=>{},
     borrar:(req,res)=>{}

@@ -42,7 +42,7 @@ const usuario = {
       if(userExists) return res.status(401).json({message:"Usuario ya registrado"})
 
       const data =  req.body
-      const passHas = await hashPassword();
+      const passHas = await hashPassword(data.password);
       const newUser = new User({ ...data, password: passHas });
       const saveUser = await newUser.save();
 
@@ -102,9 +102,10 @@ const usuario = {
           //si rta es true , genero el JWT
           const {token,expiresIn} = await generateAccessToken(findUser[0].id);
           // console.log('log del token',jwtUser);
+        
           return res.header("autorizado", token).json({
             message: "Usuario autenticado",
-            token,expiresIn
+            token,expiresIn,id:findUser[0].id
           });
         } else {
        
