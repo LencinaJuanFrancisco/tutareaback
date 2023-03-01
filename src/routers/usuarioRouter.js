@@ -10,7 +10,6 @@ const router = Router()
 router.get('/protegida',validateToken,(req,res)=>{
     res.send("Estan en una area restringida 👽👽👽👽👽👽👽👽👽")
 })
-
 //LOGIN
 router.post('/login',userValidationLogin, usuarioController.login)
 
