@@ -1,5 +1,6 @@
 import { validateIdParamas } from '../helpers/validateIdParamas.js'
 import Proyect from '../Schemas/Proyect.js'
+import {User} from '../Schemas/Users.js'
  const proyecto = {
     listarTodos:async(req,res)=>{
         try {
@@ -87,7 +88,46 @@ import Proyect from '../Schemas/Proyect.js'
         }
     },
     agregarTarea:async(req,res)=>{},
-    agregarColaborador:async(req,res)=>{},
+    
+    agregarColaborador:async(req,res)=>{
+        const {id}=req.params //id del proyecto
+        const dataUser = req.body //data usuario a agragar
+        //console.log("dataUser 🔥🔥🔥🔥--->",dataUser);
+        try {
+            //valido el id
+            if (validateIdParamas(id)) {
+                //busco proyecto
+                const findProyect = await Proyect.findById(id)
+                if (findProyect) {
+                    //busco usuario
+                    const findUser = await User.findById(dataUser.id)
+                   // console.log("dataUser ID 👽👽👽👽--->",dataUser.id);
+                    if (findUser) {
+                        //verifico que el usuario a agragr no sea el creador del proyecto
+                        if (findUser.id.toString() !== findProyect.createUser.toString()) {
+                            //verifico que ya no este como colaborador
+                            if (!findProyect.collaborator.includes(findUser.id)) {
+                                //agregamos al colaborador
+                                findProyect.collaborator.push(findUser.id)
+                                const updateCollaborato = await findProyect.save()
+                                if (updateCollaborato !== null) {
+                                    return res.status(200).json({message:"Colaborador agragado",data:updateCollaborato})
+                                }
+                                return res.status(401).json({message:"no se puedo agregar colaborador"})
+                            }
+                            return res.status(401).json({message:"El colaborador que desea agragar , ya es parte del proyecto!!!"})
+                        }
+                        return res.status(401).json({message:"No se puede agragar colaborador.Es el mismo Creador del Proyecto"})
+                    }
+                    return res.status(401).json({message:"Usuario no encontrado"})
+                }
+                return res.status(401).json({message:"Proyecto no encontrado"})
+            }
+            return res.status(401).json({message:"Formato ID incorrecto"}) 
+        } catch (error) {
+            return res.status(401).json({message:"error en controlerProyect AgregarColaborador",error:error.message})
+        }
+    },
     eliminarColaborador:async(req,res)=>{},
 
 }

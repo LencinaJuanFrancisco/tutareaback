@@ -43,7 +43,7 @@ export function validateToken(req,res,next){
         }
     } catch (error) {
     
-        return res.status(401).json({error:error.message})
+        return res.status(401).json({messahe:"Error en el meddleware validateToken",error:error.message})
         
     }
     
