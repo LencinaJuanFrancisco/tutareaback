@@ -3,8 +3,9 @@ import Proyect from '../Schemas/Proyect.js'
  const proyecto = {
     listarTodos:async(req,res)=>{
         try {
-            const allProyect = await Proyect.find().populate("task")
+            const allProyect = await Proyect.find().populate("task","-createdAt -updatedAt")
                                                    .populate('collaborator',"name email")
+                                                   .populate({path: "createUser", select:"name"})
 
             allProyect.length > 0 ? res.status(200).json({message:"Totos los proyectos",data: allProyect})
                                   : res.status(401).json({message:"Ahun no hay proyectos"})   
@@ -54,7 +55,7 @@ import Proyect from '../Schemas/Proyect.js'
                        const upDateProyect = await Proyect.findByIdAndUpdate(id,data,{new:true})
                        return res.status(200).json({message:"Proyecto Editado",data:upDateProyect})
                     }
-                    return res.status(401).json({message:"Solo el creador del proyecto puede editarlo"})
+                   
                 }
                 return res.status(401).json({message:"Proyecto no encontrado"})
             }
@@ -63,7 +64,28 @@ import Proyect from '../Schemas/Proyect.js'
             return res.status(400).json({message:"cual puta es el error",error:error.message})
         }
     },
-    borrar:async(req,res)=>{},
+    borrar:async(req,res)=>{
+        const {id}= req.params
+        try {
+            if (validateIdParamas(id)) {
+               const findProyect = await Proyect.findById(id)
+               if (findProyect) {
+                   if(findProyect.createUser.toString() === req.uid.toString()){
+                       const rtaDelete = await Proyect.findByIdAndDelete(id)
+                       if (rtaDelete) {
+                            return res.status(200).json({message:`El proyectocon ID "${id}" fue eliminado`})
+                       }
+                       return res.status(401).json({message:"El proyecto no pudo ser eliminado"})
+                    }
+                    return res.status(401).json({message:"Solo el creador del proyecto puedo Eliminar este registro"})
+                }
+                return res.status(401).json({message:"Proyecto no encontrado"})
+            }
+            return res.status(401).json({message:"Formato ID incorrecto"})
+        } catch (error) {
+            return res.status(401).json({message:"error en controlerProyect Borrar",error:error.message})
+        }
+    },
     agregarTarea:async(req,res)=>{},
     agregarColaborador:async(req,res)=>{},
     eliminarColaborador:async(req,res)=>{},

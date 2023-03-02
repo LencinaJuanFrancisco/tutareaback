@@ -2,7 +2,6 @@ import { generateAccessToken } from "../helpers/generateAccessToken.js";
 import { hashPassword, comparePassword } from "../helpers/hashPassword.js";
 import { validateIdParamas } from "../helpers/validateIdParamas.js";
 
-
 import { User } from "./../Schemas/Users.js";
 
 const usuario = {
@@ -33,20 +32,23 @@ const usuario = {
     }
   },
   crear: async (req, res) => {
-    const {email} = req.body;
+    const { email } = req.body;
 
     try {
       //validamos que no tengamos un usuario con el mismo email
-      const userExists = await User.findOne({email})
+      const userExists = await User.findOne({ email });
 
-      if(userExists) return res.status(401).json({message:"Usuario ya registrado"})
+      if (userExists)
+        return res.status(401).json({ message: "Usuario ya registrado" });
 
-      const data =  req.body
+      const data = req.body;
       const passHas = await hashPassword(data.password);
       const newUser = new User({ ...data, password: passHas });
       const saveUser = await newUser.save();
 
-      return res.status(200).json({message: "usuario creado",data: saveUser});
+      return res
+        .status(200)
+        .json({ message: "usuario creado", data: saveUser });
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
@@ -100,19 +102,20 @@ const usuario = {
         // console.log("rta de compare" , rta);
         if (rta === true) {
           //si rta es true , genero el JWT
-          const {token,expiresIn} = await generateAccessToken(findUser[0].id);
+          const { token, expiresIn } = await generateAccessToken(
+            findUser[0].id
+          );
           // console.log('log del token',jwtUser);
-        
+
           return res.header("autorizado", token).json({
             message: "Usuario autenticado",
-            token,expiresIn,id:findUser[0].id
+            token,
+            expiresIn,
+            id: findUser[0].id,
           });
         } else {
-       
           //utilizamos el mismo msg para indicar al usuario el error pero sin dar pistas si es el usuario o el password el incorrecto
-          return res
-            .status(401)
-            .json({ message: "Usuario no encontrado" });
+          return res.status(401).json({ message: "Usuario no encontrado" });
         }
       }
       return res.status(401).json({ message: "Usuario no encontrado" });
@@ -122,16 +125,14 @@ const usuario = {
     }
   },
   //recuperacion de datos del usuario por token
-  giu:async(req,res)=>{
+  giu: async (req, res) => {
     try {
-      //con select("-password") traemos todos los datos menos el password del usuario 
-      const user = await User.findById(req.uid).select("-password")
-     
+      //con select("-password") traemos todos los datos menos el password del usuario
+      const user = await User.findById(req.uid).select("-password");
+
       console.log(user);
-      return res.status(200).json({user})
-    } catch (error) {
-      
-    }
-  }
+      return res.status(200).json({ user });
+    } catch (error) {}
+  },
 };
 export default usuario;

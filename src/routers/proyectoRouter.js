@@ -7,7 +7,7 @@ router.get("/",proyectoControlles.listarTodos)
 router.post("/",validateToken,proyectoControlles.crear)
 router.get('/:id',proyectoControlles.listarUno)
 router.patch('/:id',validateToken,proyectoControlles.editar)
-router.delete('/:id',proyectoControlles.borrar)
+router.delete('/:id',validateToken,proyectoControlles.borrar)
 
 
 
