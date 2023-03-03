@@ -128,7 +128,32 @@ import {User} from '../Schemas/Users.js'
             return res.status(401).json({message:"error en controlerProyect AgregarColaborador",error:error.message})
         }
     },
-    eliminarColaborador:async(req,res)=>{},
+    eliminarColaborador:async(req,res)=>{
+        const {id} = req.params // id del proyecto
+        const data = req.body // data del colaborador a eliminar
+        try {
+            if (validateIdParamas(id)) {
+                const findProyect = await Proyect.findById(id)
+                //Busco el proyecto
+                if (findProyect) {
+                // busco verifico si el administrador del proyecto es el que desea eliminar un colaborador
+                    if (findProyect.createUser.toString() === req.uid.toString()) {
+                        if (findProyect.collaborator.includes(data.id)) {
+                            findProyect.collaborator.pull(data.id)
+                            await findProyect.save()
+                            return res.status(200).json({message:"el colaborador a sido eliminado del proyecto"})
+                        }
+                        return res.status(401).json({message:"el colaborador que desea eliminar , no es pate del proyecto"})
+                    }
+                     return res.status(401).json({message:"solo el administrador del proyecto puede eliminar colaborador"})
+                }
+                return res.status(401).json({message:"Proyecto no encontrado"})
+            }
+            return res.status(401).json({message:"Formato ID incorrecto"})
+        } catch (error) {
+            return res.status(401).json({message:"error en controlerProyect eliminarColaborador",error:error.message})
+        }
+    },
 
 }
  export default proyecto
