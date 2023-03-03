@@ -18,6 +18,10 @@ const TaskSchema = new Schema({
         required: true,
         enum: ['Baja', 'Media', 'Alta']
     },
+    userStatusChange:({
+        type: mongoose.Types.ObjectId,
+        ref: "User"
+    }),
     userCreateTask: ({
         type: mongoose.Types.ObjectId,
         ref: "User"

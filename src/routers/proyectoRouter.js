@@ -3,7 +3,7 @@ import proyectoControlles from './../controllers/proyectoController.js'
 import {validateToken} from '../middlewares/validateToken.js'
 const router = Router()
 
-router.get("/",proyectoControlles.listarTodos)
+router.get("/",validateToken,proyectoControlles.listarTodos)
 router.post("/",validateToken,proyectoControlles.crear)
 router.post("/addcolaborator/:id",validateToken,proyectoControlles.agregarColaborador)
 router.post("/deletecolaborator/:id",validateToken,proyectoControlles.eliminarColaborador)
