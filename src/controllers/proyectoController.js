@@ -86,9 +86,7 @@ import {User} from '../Schemas/Users.js'
         } catch (error) {
             return res.status(401).json({message:"error en controlerProyect Borrar",error:error.message})
         }
-    },
-    agregarTarea:async(req,res)=>{},
-    
+    },    
     agregarColaborador:async(req,res)=>{
         const {id}=req.params //id del proyecto
         const dataUser = req.body //data usuario a agragar

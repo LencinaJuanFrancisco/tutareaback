@@ -1,4 +1,5 @@
 import { Task } from '../Schemas/Task.js'
+import Proyect  from '../Schemas/Proyect.js'
 
 import { validateIdParamas } from '../helpers/validateIdParamas.js'
 
@@ -21,21 +22,35 @@ const tarea = {
                 return allTask ? res.status(200).json({ message: "Listado", data: allTask })
                                : res.status(401).json({ message: "Aun no hay registros de Tareas" })
             }
-            res.status(401).json({message:"Formato id Incorrecto"})
+          return  res.status(401).json({message:"Formato id Incorrecto"})
         }
         catch (error) {
             res.status(400).json({ message: error.message });
         }
     },
     crear: async (req, res) => {
+
         const data = req.body
         const userId = req.uid 
-   
-        const newData = ({ ...data, userCreateTask: userId})
-       // console.log("newData", newData)
+        const {id} = req.params //id del proyecto
+       
         try {
-            const newTask = new Task(newData);
+            if (!validateIdParamas(id)) {
+                return  res.status(401).json({message:"Formato id Incorrecto"})
+                
+            }
+            const newData = ({ ...data, userCreateTask: userId,proyect:id})
+            const newTask = new Task(newData);        
             const saveTask = await newTask.save();
+
+            const findProyect = await Proyect.findById(id)
+            if (findProyect === null) {
+                return res.status(401).json({message:"Proyecto no encontrado"})    
+            }
+
+            //agrego la tarea al proyecto
+            findProyect.task.push(saveTask.id)
+            await findProyect.save()
 
             return res.status(200).json({
                 message: "tarea creada",

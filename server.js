@@ -8,7 +8,7 @@ dotenv.config();
 
 const app = express()
 const PORT =  process.env.PORT || 3000
-//Seter
+//Setter
 app.use(express.json());
 app.use(cors({
   origin:'*'
@@ -26,13 +26,13 @@ app.listen(PORT, (err) => {
 }else{
     dbConect().then(
         (data) => {
-          console.log("😎😎😎 CONECTADOS A MONGO DB ATLAS 😎😎😎");
+          console.log("😎 😎 😎  CONECTADOS A MONGO DB ATLAS 😎 😎 😎");
         },
         (err) => {
           console.log(`🔥🔥🔥 Error en la conexion con MONGODB ${err}🔥🔥🔥`);
         }
       );
-    console.log(`🏁 El servidor esta corriendo exitosamente en -->  http://localhost:${PORT}/api/v1 🏁`);
+    console.log(`🏁  El servidor esta 🏃 🏃 🏃  exitosamente en -->  http://localhost:${PORT}/api/v1 🏁`);
 }
     
 });

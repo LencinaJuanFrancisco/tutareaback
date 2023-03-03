@@ -24,7 +24,7 @@ const TaskSchema = new Schema({
 
     }),
     proyect:{
-        type: Schema.Types.ObjectId,
+        type: mongoose.Types.ObjectId,
         ref: 'Proyect'
     }
 
