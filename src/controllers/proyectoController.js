@@ -21,15 +21,14 @@ import {User} from '../Schemas/Users.js'
             if (validateIdParamas(id)) {
                 const oneProyect = await Proyect.findById(id).populate("task")
                                                              .populate('collaborator',"name email")
-
-                 if (oneProyect) {
+                
+                 if (oneProyect.task.length >=0) {
                     //busco si hay tareas por vencer
-                   const findTaskDue = await taskDue(id)
-                  
-                   console.log("findTaskDueTrue 😎 😎 😎 😎",findTaskDue);
+                   const findTaskDue = await taskDue(oneProyect.task)
+                    console.log("Tareas por vencerce 😎 😎 😎 😎 ",findTaskDue);
                    return  res.status(200).json({ message: "Listado", data: oneProyect , taskDue: findTaskDue })
                  }   
-                return  res.status(200).json({ message: "Proyecto no encontrado" })
+                return  res.status(200).json({ message: "Proyecto no encontrado 👽" })
             }
 
             return res.status(401).json({message:"formato de ID no valido"})
