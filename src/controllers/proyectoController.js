@@ -1,3 +1,4 @@
+import { taskDue } from '../helpers/taskDue.js'
 import { validateIdParamas } from '../helpers/validateIdParamas.js'
 import Proyect from '../Schemas/Proyect.js'
 import {User} from '../Schemas/Users.js'
@@ -21,9 +22,16 @@ import {User} from '../Schemas/Users.js'
                 const oneProyect = await Proyect.findById(id).populate("task")
                                                              .populate('collaborator',"name email")
 
-                 return oneProyect ? res.status(200).json({ message: "Listado", data: oneProyect })
-                                : res.status(200).json({ message: "Proyecto no encontrado" })
+                 if (oneProyect) {
+                    //busco si hay tareas por vencer
+                   const findTaskDue = await taskDue(id)
+                  
+                   console.log("findTaskDueTrue 😎 😎 😎 😎",findTaskDue);
+                   return  res.status(200).json({ message: "Listado", data: oneProyect , taskDue: findTaskDue })
+                 }   
+                return  res.status(200).json({ message: "Proyecto no encontrado" })
             }
+
             return res.status(401).json({message:"formato de ID no valido"})
         } catch (error) {
             

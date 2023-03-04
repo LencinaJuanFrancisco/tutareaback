@@ -104,7 +104,7 @@ const tarea = {
 
             if (findTask === null)   return res.status(401).json({ message: "Tarea no encontrado" })
             
-            findTask.state = !findTask.state // mofico el estado a su contrario. si esta false lo pasa a true
+            findTask.state = !findTask.state // modifico el estado a su contrario. si esta false lo pasa a true
             findTask.userStatusChange = req.uid //agrego el id del usuario que cambio el estado de la tarea
 
             await findTask.save()
