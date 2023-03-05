@@ -1,5 +1,4 @@
-import Proyect from "../Schemas/Proyect.js";
-import { Task } from "../Schemas/Task.js";
+
 
 export async function taskDue(tasks) {
  // console.log("entre a taskDue 😪 😪 😪 😪",tasks);
@@ -19,14 +18,14 @@ export async function taskDue(tasks) {
       
       const fechaFinal = t.dateEnd;
     //   console.log("que mierda es findTask --- 🚀 🚀 🚀 🚀 🚀 ", findTask);
-      console.log("que mierda es findTask.dateEnd --- 🚀 🚀 🚀 🚀 🚀 ", t.dateEnd);
+     // console.log("que mierda es findTask.dateEnd --- 🚀 🚀 🚀 🚀 🚀 ", t.dateEnd);
      
       const anioF = fechaFinal.getFullYear();
       const mesF = fechaFinal.getMonth()+1; //los meses se cuentan de 0 al 11 , por ese motivo hay que sumarle uno a la fecha para poder igualar
       const diaF = fechaFinal.getDate();
   
       const fin = new Date(anioF,mesF,diaF)
-      console.log("fin - hoy  🎉 🎉 🎉 🎉 🎉 ",(((fin-hoy)/1000)));
+      //console.log("fin - hoy  🎉 🎉 🎉 🎉 🎉 ",(((fin-hoy)/1000)));
        
       const calculateDay = diaF - dayNow
       console.log(anioF,mesF,diaF,"diferencia de dias ", calculateDay <= 2 , calculateDay);

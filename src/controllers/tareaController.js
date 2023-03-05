@@ -2,6 +2,7 @@ import { Task } from '../Schemas/Task.js'
 import Proyect  from '../Schemas/Proyect.js'
 
 import { validateIdParamas } from '../helpers/validateIdParamas.js'
+import { aaaammdd } from '../helpers/aaaammdd.js'
 
 const tarea = {
     listarTodos: async (req, res) => {
@@ -42,7 +43,8 @@ const tarea = {
             const newData = ({ ...data, userCreateTask: userId,proyect:id})
             const newTask = new Task(newData);        
             const saveTask = await newTask.save();
-
+            
+            //await newTask.dateEnd(aaaammdd(newTask.dateEnd)).save()
             const findProyect = await Proyect.findById(id)
             if (findProyect === null) {
                 return res.status(401).json({message:"Proyecto no encontrado"})    
