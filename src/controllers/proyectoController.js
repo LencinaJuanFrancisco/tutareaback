@@ -30,15 +30,10 @@ const proyecto = {
           if (oneProyect.task.length >= 0) {
             //busco si hay tareas por vencer
             const findTaskDue = await taskDue(oneProyect.task);
-            //filtro y muestro de las tareas por vencerse solo las que no estas finalizada.---> view only state:false
-            const findTaskDueFalse = findTaskDue.filter(
-              (t) => t.state === false
-            );
-
             return res.status(200).json({
               message: "Listado",
               data: oneProyect,
-              taskDue: findTaskDueFalse,
+              taskDue: findTaskDue,
             });
           }
           return res.status(200).json({ message: "Listado", data: oneProyect });

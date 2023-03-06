@@ -1,7 +1,7 @@
 
 import {Router} from 'express'
 import { validateToken } from '../middlewares/validateToken.js'
-import { userValidationCreate, userValidationLogin, userValidationLoginUpdate } from '../middlewares/validation/userValidationData.js'
+import { userValidationCreate, userValidationLogin, userValidationLoginUpdate } from '../middlewares/validationForm/userValidationData.js'
 import usuarioController from './../controllers/usuarioController.js'
 const router = Router()
 
