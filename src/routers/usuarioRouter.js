@@ -20,7 +20,7 @@ router.get('/giu',validateToken,usuarioController.giu)
 
 //CRUD USERS
 router.get('/',validateToken,usuarioController.listarTodos)
-router.post('/',validateToken,userValidationCreate,usuarioController.crear)
+router.post('/register',userValidationCreate,usuarioController.crear)
 router.get('/:id',validateToken,usuarioController.listarUno)
 router.patch('/:id',validateToken,userValidationLoginUpdate,usuarioController.editar)
 router.delete('/:id',validateToken,usuarioController.borrar)

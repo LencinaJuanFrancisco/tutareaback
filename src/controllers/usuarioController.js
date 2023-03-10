@@ -9,7 +9,7 @@ const usuario = {
     try {
       const allUsers = await User.find().select("-password");
       allUsers.length > 0
-        ? res.status(200).json({ message: "Listado", data: allUsers })
+        ? res.status(200).json({status:200, message: "Listado", data: allUsers })
         : res.status(200).json({ message: "Aun no hay registros de Usuarios" });
     } catch (error) {
       res.status(400).json({ message: error.message });
@@ -23,7 +23,7 @@ const usuario = {
       if (validateIdParamas(id)) {
         const rta = await User.findById(id).select("-password");
         return rta
-          ? res.status(200).json({ data: rta })
+          ? res.status(200).json({status:200, data: rta })
           : res.status(401).json({ message: "Registro no encontrado" });
       }
       return res.status(400).json({ message: "Formato del ID no valido" });
@@ -32,6 +32,7 @@ const usuario = {
     }
   },
   crear: async (req, res) => {
+    console.log("estoy viniendo del frente 😉 😉 😉 😉 ",req.body);
     const { email } = req.body;
 
     try {
@@ -48,7 +49,7 @@ const usuario = {
 
       return res
         .status(200)
-        .json({ message: "usuario creado", data: saveUser });
+        .json({ status:200,message: "usuario creado", data: saveUser });
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
@@ -64,7 +65,7 @@ const usuario = {
         });
 
         if (upDateUser != null) {
-          return res.status(200).json({ message: "Editado", data: upDateUser });
+          return res.status(200).json({status:200, message: "Editado", data: upDateUser });
         }
         return res.status(401).json({ message: "Usuario no encontrado" });
       }
@@ -81,7 +82,7 @@ const usuario = {
         if (rta)
           return res
             .status(200)
-            .json({ message: `Usuario con ID ${id} sue eliminado` });
+            .json({status:200, message: `Usuario con ID ${id} sue eliminado` });
         return res.status(401).json({ message: "Usuario no encontrado" });
       }
       return res.status(400).json({ message: "Formato del ID no valido" });
@@ -107,7 +108,8 @@ const usuario = {
           );
           // console.log('log del token',jwtUser);
 
-          return res.header("autorizado", token).json({
+          return res.status(200).json({
+            status:200,
             message: "Usuario autenticado",
             token,
             expiresIn,
@@ -131,7 +133,7 @@ const usuario = {
       const user = await User.findById(req.uid).select("-password");
 
       console.log(user);
-      return res.status(200).json({ user });
+      return res.status(200).json({ data:user });
     } catch (error) {}
   },
 };

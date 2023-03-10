@@ -13,7 +13,7 @@ const proyecto = {
       allProyect.length > 0
         ? res
             .status(200)
-            .json({ message: "Totos los proyectos", data: allProyect })
+            .json({status:200, message: "Totos los proyectos", data: allProyect })
         : res.status(401).json({ message: "Ahun no hay proyectos" });
     } catch (error) {
       return res.status(400).json(error.message);
@@ -31,14 +31,15 @@ const proyecto = {
             //busco si hay tareas por vencer
             const findTaskDue = await taskDue(oneProyect.task);
             return res.status(200).json({
+              status:200,
               message: "Listado",
               data: oneProyect,
               taskDue: findTaskDue,
             });
           }
-          return res.status(200).json({ message: "Listado", data: oneProyect });
+          return res.status(200).json({status:200, message: "Listado", data: oneProyect });
         }
-        return res.status(200).json({ message: "Proyecto no encontrado 👽" });
+        return res.status(401).json({ message: "Proyecto no encontrado 👽" });
       }
 
       return res.status(401).json({ message: "formato de ID no valido" });
@@ -51,7 +52,7 @@ const proyecto = {
       const saveProyect = await newProyect.save();
       return res
         .status(200)
-        .json({ message: "Proyecto Creado", data: saveProyect });
+        .json({status:200, message: "Proyecto Creado", data: saveProyect });
     } catch (error) {
       return res
         .status(401)
@@ -76,7 +77,7 @@ const proyecto = {
             });
             return res
               .status(200)
-              .json({ message: "Proyecto Editado", data: upDateProyect });
+              .json({status:200, message: "Proyecto Editado", data: upDateProyect });
           }
         }
         return res.status(401).json({ message: "Proyecto no encontrado" });
@@ -99,7 +100,7 @@ const proyecto = {
             if (rtaDelete) {
               return res
                 .status(200)
-                .json({ message: `El proyectocon ID "${id}" fue eliminado` });
+                .json({status:200, message: `El proyectocon ID "${id}" fue eliminado` });
             }
             return res
               .status(401)
@@ -143,6 +144,7 @@ const proyecto = {
                 const updateCollaborato = await findProyect.save();
                 if (updateCollaborato !== null) {
                   return res.status(200).json({
+                    status:200,
                     message: "Colaborador agragado",
                     data: updateCollaborato,
                   });
@@ -187,6 +189,7 @@ const proyecto = {
               findProyect.collaborator.pull(data.id);
               await findProyect.save();
               return res.status(200).json({
+                status:200,
                 message: "el colaborador a sido eliminado del proyecto",
               });
             }

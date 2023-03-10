@@ -2,13 +2,13 @@ import { Task } from '../Schemas/Task.js'
 import Proyect  from '../Schemas/Proyect.js'
 
 import { validateIdParamas } from '../helpers/validateIdParamas.js'
-import { aaaammdd } from '../helpers/aaaammdd.js'
+
 
 const tarea = {
     listarTodos: async (req, res) => {
         try {
             const rta = await Task.find().populate({path: "userCreateTask", select:"name email id"})
-            res.status(200).json({ message: "Todas las Tareas", data: rta })
+            res.status(200).json({status:200, message: "Todas las Tareas", data: rta })
         } catch (error) {
            // console.log("pase por aca", error)
             res.status(400).json(error.message)
@@ -20,7 +20,7 @@ const tarea = {
             const { id } = req.params;
             if (validateIdParamas(id)) {
                 const allTask = await Task.findById(id).populate("userCreateTask");
-                return allTask ? res.status(200).json({ message: "Listado", data: allTask })
+                return allTask ? res.status(200).json({status:200, message: "Listado", data: allTask })
                                : res.status(401).json({ message: "Aun no hay registros de Tareas" })
             }
           return  res.status(401).json({message:"Formato id Incorrecto"})
@@ -55,6 +55,7 @@ const tarea = {
             await findProyect.save()
 
             return res.status(200).json({
+                status:200,
                 message: "tarea creada",
                 data: saveTask,
             });
@@ -74,7 +75,7 @@ const tarea = {
                 });
 
                 if (upDateTask != null) {
-                    return res.status(200).json({ message: "Editado", data: upDateTask })
+                    return res.status(200).json({status:200, message: "Editado", data: upDateTask })
 
                 }
                 return res.status(401).json({ message: "Usuario no encontrado" });
@@ -89,7 +90,7 @@ const tarea = {
         try {
             if (validateIdParamas(id)) {
                 const rta = await Task.findByIdAndDelete(id)
-                if (rta) return res.status(200).json({ message: `Tarea con ID ${id} fue eliminado` })
+                if (rta) return res.status(200).json({status:200, message: `Tarea con ID ${id} fue eliminado` })
                 return res.status(401).json({ message: "Tarea no encontrado" })
             }
             return res.status(400).json({ message: "Formato del ID no valido" })
@@ -110,7 +111,7 @@ const tarea = {
             findTask.userStatusChange = req.uid //agrego el id del usuario que cambio el estado de la tarea
 
             await findTask.save()
-            return res.status(200).json({message:"Estado modificado",data:findTask })
+            return res.status(200).json({status:200, message:"Estado modificado",data:findTask })
             
         } catch (error) {
             return res.status(400).json({ message:"error en el controlerTask metodo estado",error: error.message });
