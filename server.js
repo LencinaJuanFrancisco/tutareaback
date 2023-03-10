@@ -3,8 +3,11 @@ import express from 'express';
 import cors from 'cors'
 import allRouter from './src/routers/index.js'
 import { dbConect } from './src/database/config.js';
-
+import mongoose from 'mongoose';
 dotenv.config();
+
+mongoose.set('strictQuery', false);
+
 
 const app = express()
 const PORT =  process.env.PORT || 3000
@@ -24,6 +27,7 @@ app.listen(PORT, (err) => {
        console.log("🔥 Error en el inicio del servidor 🔥")
        
 }else{
+
     dbConect().then(
         (data) => {
           console.log("😎 😎 😎  CONECTADOS A MONGO DB ATLAS 😎 😎 😎");

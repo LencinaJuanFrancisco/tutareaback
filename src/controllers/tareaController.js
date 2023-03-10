@@ -2,7 +2,10 @@ import { Task } from '../Schemas/Task.js'
 import Proyect  from '../Schemas/Proyect.js'
 
 import { validateIdParamas } from '../helpers/validateIdParamas.js'
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1bdefd5a382cbf69602eb3b10b0185f2f851fad9
 
 const tarea = {
     listarTodos: async (req, res) => {
