@@ -145,11 +145,11 @@ const usuario = {
         if(!validateIdParamas(id)) return  res.status(400).json({ message: "Formato del ID no valido" });
 
         const allTask = await Task.find()
-        console.log(allTask);
+        //console.log(allTask);
         if(allTask.length <= 0) return res.status(400).json({message:"Aun no hay tareas"})
         
         const taskByUser =  allTask.filter(task => task.userCreateTask == id)
-        console.log("Tareas por usuarios",taskByUser);
+        //console.log("Tareas por usuarios",taskByUser);
         taskByUser.length > 0 ? res.status(200).json({taskByUser})
                               : res.status(200).json({message:"Aún no tienes tareas asignadas"})  
 
@@ -158,6 +158,24 @@ const usuario = {
       }
 
   },
-  proyectByUser:async(req,res)=>{}
+  proyectosPorUsuarios:async(req,res)=>{
+    const {id}= req.params
+    try {
+      
+      if(!validateIdParamas(id)) return  res.status(400).json({ message: "Formato del ID no valido" });
+
+      const allProyect = await Proyect.find()
+      //console.log(allTask);
+      if(allProyect.length <= 0) return res.status(400).json({message:"Aún no hay proyectos creados"})
+      // se filtra el proyecto y devuelve los proyectos en la que son creadores o colaboradores
+      const proyectByUser =  allProyect.filter(pro => pro.createUser == id ||pro.collaborator.filter(c=> c.id == id)  )
+      console.log("Proyectos por usuarios",proyectByUser);
+      proyectByUser.length > 0 ? res.status(200).json({proyectByUser})
+                               : res.status(200).json({message:"Aún no tienes Proyecto creados o estes como colaborador de algun proyecto"})  
+
+    } catch (error) {
+      return res.status(401).json({messaga:"error en usuarioController metodo proyectPorUsuario",error:error.message})
+    }
+  }
 };
 export default usuario;
