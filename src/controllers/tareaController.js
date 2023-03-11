@@ -1,5 +1,5 @@
 import { Task } from '../Schemas/Task.js'
-import Proyect  from '../Schemas/Proyect.js'
+import {Proyect}  from '../Schemas/Proyect.js'
 
 import { validateIdParamas } from '../helpers/validateIdParamas.js'
 

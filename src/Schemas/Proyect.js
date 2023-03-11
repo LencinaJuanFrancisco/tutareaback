@@ -49,7 +49,7 @@ proyectSchema.set('toJSON', {
     }
 })
 
-const Proyect = model('Proyect', proyectSchema);
+export  const Proyect = model('Proyect', proyectSchema);
 
-export default Proyect;
+
 
