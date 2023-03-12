@@ -2,6 +2,8 @@ import { generateAccessToken } from "../helpers/generateAccessToken.js";
 import { hashPassword, comparePassword } from "../helpers/hashPassword.js";
 import { validateIdParamas } from "../helpers/validateIdParamas.js";
 
+import {ObjectId} from 'mongodb'
+
 import { User } from "./../Schemas/Users.js";
 import {Proyect} from './../Schemas/Proyect.js'  
 import {Task} from './../Schemas/Task.js'
@@ -167,9 +169,11 @@ const usuario = {
       const allProyect = await Proyect.find()
       //console.log(allTask);
       if(allProyect.length <= 0) return res.status(400).json({message:"Aún no hay proyectos creados"})
-      // se filtra el proyecto y devuelve los proyectos en la que son creadores o colaboradores
-      const proyectByUser =  allProyect.filter(pro => pro.createUser == id ||pro.collaborator.filter(c=> c.id == id)  )
-      console.log("Proyectos por usuarios",proyectByUser);
+      // se filtra el proyecto y devuelve los proyectos en la que son creadores o colaboradores pro => 
+      const proyectByUser =  allProyect.filter(pro=> pro.createUser == id ||pro.collaborator.some(c => ObjectId(c.id).equals(ObjectId(id))) )
+     
+      console.log("Proyectos por usuarios",proyectByUser.length);
+    
       proyectByUser.length > 0 ? res.status(200).json({proyectByUser})
                                : res.status(200).json({message:"Aún no tienes Proyecto creados o estes como colaborador de algun proyecto"})  
 
