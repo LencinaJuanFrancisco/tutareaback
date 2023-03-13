@@ -6,7 +6,7 @@ export const ProyectValidation = [
         .notEmpty().withMessage('El campo NOMBRE no puede estar vacio')
         .isLength({min:3}).withMessage('El nombre debe contener al menos 3 caracteres')
         .isLength({max:40}).withMessage('El nombre no puede exceder los 40 caracteres'),
-    check('descripcion')
+    check('description')
         .trim()
         .notEmpty().withMessage('El campo Descripción no puede estar vacio')
         .isLength({min:3}).withMessage('La descripción debe contener al menos 3 caracteres')

@@ -173,7 +173,7 @@ const usuario = {
      
       console.log("Proyectos por usuarios",proyectByUser.length);
     
-      proyectByUser.length > 0 ? res.status(200).json({proyectByUser})
+      proyectByUser.length > 0 ? res.status(200).json(proyectByUser)
                                : res.status(200).json({message:"Aún no tienes Proyecto creados o estes como colaborador de algun proyecto"})  
 
     } catch (error) {
