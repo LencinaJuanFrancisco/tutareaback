@@ -6,10 +6,7 @@ import usuarioController from './../controllers/usuarioController.js'
 const router = Router()
 
 
-//ROUTE PROTECTED
-router.get('/protegida',validateToken,(req,res)=>{
-    res.send("Estan en una area restringida 👽👽👽👽👽👽👽👽👽")
-})
+
 //LOGIN
 router.post('/login', userValidationLogin, usuarioController.login)
 
@@ -21,6 +18,8 @@ router.get('/giu',validateToken,usuarioController.giu)
 //CRUD USERS
 router.get('/',validateToken,usuarioController.listarTodos)
 router.post('/register',userValidationCreate,usuarioController.crear)
+router.get('/taskByUser/:id',validateToken,usuarioController.tareasPorUsuarios)//filtra las tareas por usuario
+router.get('/proyectByUser/:id',validateToken,usuarioController.proyectosPorUsuarios)//filtra las tareas por usuario
 router.get('/:id',validateToken,usuarioController.listarUno)
 router.patch('/:id',validateToken,userValidationLoginUpdate,usuarioController.editar)
 router.delete('/:id',validateToken,usuarioController.borrar)

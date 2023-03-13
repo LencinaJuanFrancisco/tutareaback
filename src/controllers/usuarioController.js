@@ -2,7 +2,11 @@ import { generateAccessToken } from "../helpers/generateAccessToken.js";
 import { hashPassword, comparePassword } from "../helpers/hashPassword.js";
 import { validateIdParamas } from "../helpers/validateIdParamas.js";
 
+import {ObjectId} from 'mongodb'
+
 import { User } from "./../Schemas/Users.js";
+import {Proyect} from './../Schemas/Proyect.js'  
+import {Task} from './../Schemas/Task.js'
 
 const usuario = {
   listarTodos: async (req, res) => {
@@ -59,17 +63,17 @@ const usuario = {
     const body = req.body;
 
     try {
-      if (validateIdParamas(id)) {
-        const upDateUser = await User.findByIdAndUpdate(id, body, {
-          new: true,
-        });
-
-        if (upDateUser != null) {
-          return res.status(200).json({status:200, message: "Editado", data: upDateUser });
-        }
-        return res.status(401).json({ message: "Usuario no encontrado" });
+      if (!validateIdParamas(id)) {
+        return res.status(400).json({ message: "Formato del ID no valido" });
       }
-      return res.status(400).json({ message: "Formato del ID no valido" });
+      const upDateUser = await User.findByIdAndUpdate(id, body, {
+        new: true,
+      });
+
+        if (upDateUser === null) {
+          return res.status(401).json({ message: "Usuario no encontrado" });
+        }
+        return res.status(200).json({status:200, message: "Editado", data: upDateUser });
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
@@ -135,5 +139,46 @@ const usuario = {
       return res.status(200).json(user);
     } catch (error) {}
   },
+  tareasPorUsuarios:async(req,res)=>{
+      const {id}= req.params
+      try {
+        
+        if(!validateIdParamas(id)) return  res.status(400).json({ message: "Formato del ID no valido" });
+
+        const allTask = await Task.find()
+        //console.log(allTask);
+        if(allTask.length <= 0) return res.status(400).json({message:"Aun no hay tareas"})
+        
+        const taskByUser =  allTask.filter(task => task.userCreateTask == id)
+        //console.log("Tareas por usuarios",taskByUser);
+        taskByUser.length > 0 ? res.status(200).json({taskByUser})
+                              : res.status(200).json({message:"Aún no tienes tareas asignadas"})  
+
+      } catch (error) {
+        return res.status(401).json({messaga:"error en usuarioController metodo tareaPorUsuario",error:error.message})
+      }
+
+  },
+  proyectosPorUsuarios:async(req,res)=>{
+    const {id}= req.params
+    try {
+      
+      if(!validateIdParamas(id)) return  res.status(400).json({ message: "Formato del ID no valido" });
+
+      const allProyect = await Proyect.find()
+      //console.log(allTask);
+      if(allProyect.length <= 0) return res.status(400).json({message:"Aún no hay proyectos creados"})
+      // se filtra el proyecto y devuelve los proyectos en la que son creadores o colaboradores pro => 
+      const proyectByUser =  allProyect.filter(pro=> pro.createUser == id ||pro.collaborator.some(c => ObjectId(c.id).equals(ObjectId(id))) )
+     
+      console.log("Proyectos por usuarios",proyectByUser.length);
+    
+      proyectByUser.length > 0 ? res.status(200).json({proyectByUser})
+                               : res.status(200).json({message:"Aún no tienes Proyecto creados o estes como colaborador de algun proyecto"})  
+
+    } catch (error) {
+      return res.status(401).json({messaga:"error en usuarioController metodo proyectPorUsuario",error:error.message})
+    }
+  }
 };
 export default usuario;

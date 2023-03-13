@@ -1,7 +1,8 @@
 import { Task } from '../Schemas/Task.js'
-import Proyect  from '../Schemas/Proyect.js'
+import {Proyect}  from '../Schemas/Proyect.js'
 
 import { validateIdParamas } from '../helpers/validateIdParamas.js'
+import { validateDateToTask } from '../helpers/validateDateToTask.js'
 
 const tarea = {
     listarTodos: async (req, res) => {
@@ -39,15 +40,18 @@ const tarea = {
                 return  res.status(401).json({message:"Formato id Incorrecto"})
                 
             }
-            const newData = ({ ...data, userCreateTask: userId,proyect:id})
-            const newTask = new Task(newData);        
-            const saveTask = await newTask.save();
             
             //await newTask.dateEnd(aaaammdd(newTask.dateEnd)).save()
             const findProyect = await Proyect.findById(id)
             if (findProyect === null) {
                 return res.status(401).json({message:"Proyecto no encontrado"})    
             }
+            const newData = ({ ...data, userCreateTask: userId,proyect:id})
+
+           if (validateDateToTask(req.body.dateEnd,findProyect.dateEnd)) return res.status(401).json({message:"La fecha de entrega de la tarea es mayor a la fecha de entraga del proyecto o menor a la fecha actual"})
+
+            const newTask = new Task(newData);        
+            const saveTask = await newTask.save();
 
             //agrego la tarea al proyecto
             findProyect.task.push(saveTask.id)

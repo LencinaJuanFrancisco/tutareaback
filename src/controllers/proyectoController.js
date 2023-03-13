@@ -1,6 +1,6 @@
 import { taskDue } from "../helpers/taskDue.js";
 import { validateIdParamas } from "../helpers/validateIdParamas.js";
-import Proyect from "../Schemas/Proyect.js";
+import {Proyect} from "../Schemas/Proyect.js";
 import { User } from "../Schemas/Users.js";
 const proyecto = {
   listarTodos: async (req, res) => {
