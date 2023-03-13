@@ -132,8 +132,7 @@ const usuario = {
       //con select("-password") traemos todos los datos menos el password del usuario
       const user = await User.findById(req.uid).select("-password");
 
-      console.log(user);
-      return res.status(200).json({ data:user });
+      return res.status(200).json(user);
     } catch (error) {}
   },
 };
