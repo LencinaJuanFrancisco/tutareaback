@@ -25,7 +25,9 @@ const proyecto = {
       if (validateIdParamas(id)) {
         const oneProyect = await Proyect.findById(id)
           .populate("task", "-createdAt -updatedAt")
-          .populate("collaborator", "name email");
+          .populate("collaborator", "name email")
+          .populate({path: "task", populate: {path: "userStatusChange", select: "name"}});
+          
         if (oneProyect) {
           if (oneProyect.task.length >= 0) {
             //busco si hay tareas por vencer
