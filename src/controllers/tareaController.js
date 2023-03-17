@@ -106,15 +106,15 @@ const tarea = {
         try {
             if (!validateIdParamas(id)) return res.status(400).json({ message: "Formato del ID no valido" })
             
-            const findTask = await Task.findById(id)
-
+            const findTask = await Task.findById(id).populate({path: "userStatusChange", select:"name email"})
             if (findTask === null)   return res.status(401).json({ message: "Tarea no encontrado" })
             
             findTask.state = !findTask.state // modifico el estado a su contrario. si esta false lo pasa a true
             findTask.userStatusChange = req.uid //agrego el id del usuario que cambio el estado de la tarea
-
+            
             await findTask.save()
-            return res.status(200).json({status:200, message:"Estado modificado",data:findTask })
+            const findTaskNew = await Task.findById(id).populate({path: "userStatusChange", select:"name email"})
+            return res.status(200).json({status:200, message:"Estado modificado",data:findTaskNew })
             
         } catch (error) {
             return res.status(400).json({ message:"error en el controlerTask metodo estado",error: error.message });

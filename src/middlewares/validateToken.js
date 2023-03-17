@@ -17,6 +17,7 @@ export function validateToken(req,res,next){
                     const {id}= jwt.verify(token,process.env.SECRET_JWT)
                     //insertamos en el req. el id del usuario
                     req.uid = id
+                    req.tokenUser= token
                     next()
                 }
         
@@ -32,6 +33,7 @@ export function validateToken(req,res,next){
                     const {id}= jwt.verify(accesstokenQuery,process.env.SECRET_JWT)
                     //insertamos en el req. el id del usuario
                     req.uid = id
+                    req.token= token
                     next()
                 }
         
