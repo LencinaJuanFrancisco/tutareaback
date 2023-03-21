@@ -126,7 +126,7 @@ const proyecto = {
   agregarColaborador: async (req, res) => {
     const { id } = req.params; //id del proyecto
     const dataUser = req.body; //data usuario a agragar
-    //console.log("dataUser 🔥🔥🔥🔥--->",dataUser);
+    console.log("dataUser 🔥🔥🔥🔥--->",dataUser.collaborator);
     try {
       //valido el id
       if (validateIdParamas(id)) {
@@ -134,7 +134,7 @@ const proyecto = {
         const findProyect = await Proyect.findById(id);
         if (findProyect) {
           //busco usuario
-          const findUser = await User.findById(dataUser.id);
+          const findUser = await User.findById(dataUser.collaborator);
           // console.log("dataUser ID 👽👽👽👽--->",dataUser.id);
           if (findUser) {
             //verifico que el usuario a agragr no sea el creador del proyecto
