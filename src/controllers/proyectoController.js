@@ -180,6 +180,7 @@ const proyecto = {
   eliminarColaborador: async (req, res) => {
     const { id } = req.params; // id del proyecto
     const data = req.body; // data del colaborador a eliminar
+    console.log("xq no viene nada aca",data);
     try {
       if (validateIdParamas(id)) {
         const findProyect = await Proyect.findById(id);
@@ -197,7 +198,7 @@ const proyecto = {
             }
             return res.status(401).json({
               message:
-                "el colaborador que desea eliminar , no es pate del proyecto",
+                "el colaborador que desea eliminar , no es parte del proyecto",
             });
           }
           return res.status(401).json({
