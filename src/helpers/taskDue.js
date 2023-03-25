@@ -32,7 +32,7 @@ export async function taskDue(tasks) {
 //filtro y muestro de las tareas por vencerse solo las que no estas finalizada.---> view only state:false
     return buscarTareas.filter(t=> t.state === false);
   } catch (error) {
-    console.log("Error en la funcion taskDue 🔥 🔥 🔥 🔥 🔥", error.message);
+    //console.log("Error en la funcion taskDue 🔥 🔥 🔥 🔥 🔥", error.message);
     return json({ message: "Error en la funcion taskDue" });
   }
 }

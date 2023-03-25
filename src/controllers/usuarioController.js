@@ -169,7 +169,7 @@ const usuario = {
       //console.log(allProyect);
       if(allProyect.length <= 0) return res.status(400).json({message:"Aún no hay proyectos creados"})
       // se filtra el proyecto y devuelve los proyectos en la que son creadores o colaboradores pro => 
-      const proyectByUser =  allProyect.filter(pro=> pro.createUser == id ||pro.collaborator.some(c => ObjectId(c.id).equals(ObjectId(id))) )
+      const proyectByUser =  allProyect.filter(pro=> pro.createUser == id || pro.collaborator.some(c => ObjectId(c.id).equals(ObjectId(id))) )
      
       //console.log("Proyectos por usuarios",proyectByUser.length);
     

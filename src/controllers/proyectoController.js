@@ -2,6 +2,7 @@ import { taskDue } from "../helpers/taskDue.js";
 import { validateIdParamas } from "../helpers/validateIdParamas.js";
 import {Proyect} from "../Schemas/Proyect.js";
 import { User } from "../Schemas/Users.js";
+
 const proyecto = {
   listarTodos: async (req, res) => {
     try {
@@ -34,7 +35,7 @@ const proyecto = {
             const findTaskDue = await taskDue(oneProyect.task);
             return res.status(200).json({
               status:200,
-              message: "Listado",
+              message: "Listado", 
               data: oneProyect,
               taskDue: findTaskDue,
             });
@@ -126,7 +127,7 @@ const proyecto = {
   agregarColaborador: async (req, res) => {
     const { id } = req.params; //id del proyecto
     const dataUser = req.body; //data usuario a agragar
-    console.log("dataUser 🔥🔥🔥🔥--->",dataUser.collaborator);
+    //console.log("dataUser 🔥🔥🔥🔥--->",dataUser.collaborator);
     try {
       //valido el id
       if (validateIdParamas(id)) {
@@ -180,7 +181,7 @@ const proyecto = {
   eliminarColaborador: async (req, res) => {
     const { id } = req.params; // id del proyecto
     const data = req.body; // data del colaborador a eliminar
-    console.log("xq no viene nada aca",data);
+    //console.log("xq no viene nada aca",data);
     try {
       if (validateIdParamas(id)) {
         const findProyect = await Proyect.findById(id);

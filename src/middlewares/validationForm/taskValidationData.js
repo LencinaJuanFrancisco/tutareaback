@@ -20,8 +20,8 @@ export const taskValidation = [
         .isBoolean().withMessage('El campo estado debe ser TRUE or FALSE'),
     check('priority')
         .trim()
-        .notEmpty().withMessage('El campo Prioridad no puede estar vacio')
-        .isIn(['Baja','Media','Alta']).withMessage('La priorido solo puede ser "Baja,Media,Alta"'),
+        .notEmpty().withMessage('El campo Prioridad no puede estar vacio'),
+        // .isIn(['Baja','Media','Alta']).withMessage('La priorido solo puede ser "Baja,Media,Alta"'),
     (req,res,next)=>{
         try {
             validationResult(req).throw()
