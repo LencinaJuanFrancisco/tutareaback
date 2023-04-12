@@ -126,7 +126,7 @@ const usuario = {
       }
       return res.status(401).json({ message: "Usuario no encontrado" });
     } catch (error) {
-      console.log("log del chatch de login", error);
+     // console.log("log del chatch de login", error);
       res.status(400).json({ message: error.message });
     }
   },

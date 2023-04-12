@@ -83,13 +83,13 @@ const proyecto = {
               .json({status:200, message: "Proyecto Editado", data: upDateProyect });
           }
         }
-        return res.status(401).json({ message: "Proyecto no encontrado" });
+        return res.status(401).json({ message: "Solo el ADMINISTRADOR del proyecto puede editarlo" });
       }
       return res.status(401).json({ message: "Formato ID incorrecto" });
     } catch (error) {
       return res
         .status(400)
-        .json({ message: "cual puta es el error", error: error.message });
+        .json({ message: "cual es el error", error: error.message });
     }
   },
   borrar: async (req, res) => {
