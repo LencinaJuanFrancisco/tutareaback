@@ -16,14 +16,14 @@ export async function hashPassword(pass){
 
 //para hacer un login
 export async function comparePassword(passBody,passDb){
-    console.log("passbody y passDb", passBody,passDb);
+    //console.log("passbody y passDb", passBody,passDb);
     try {
         // compare devuelve true o false 
         const result = await compare(passBody,passDb);
-        console.log('log de compare---->',result);
+        //console.log('log de compare---->',result);
        return result
     } catch (error) {
-        console.log("error en hashPaswword en la function compare");
+      //  console.log("error en hashPaswword en la function compare");
         return error
     }
 }
